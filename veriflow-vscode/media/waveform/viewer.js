@@ -259,6 +259,26 @@ function scopeLabel(scope) {
     return scope || 'All scopes';
 }
 
+function createWaveActionButton(kind, label, title, action, disabled = false) {
+    const button = document.createElement('button');
+    button.className = 'wave-action-button ' + kind;
+    button.type = 'button';
+    button.textContent = label;
+    button.title = title;
+    button.setAttribute('aria-label', title);
+    button.disabled = disabled;
+    button.draggable = false;
+    button.onmousedown = event => event.stopPropagation();
+    button.ondblclick = event => event.stopPropagation();
+    button.onclick = event => {
+        event.stopPropagation();
+        if (!button.disabled) {
+            action();
+        }
+    };
+    return button;
+}
+
 function renderSignalList() {
     const savedScrollTop = signalList.scrollTop;
     signalList.innerHTML = '';
@@ -320,6 +340,14 @@ function renderSignalList() {
         color.className = 'signal-color';
         color.style.background = isWaveVisible(signal) ? DEFAULT_WAVE_COLOR : 'transparent';
 
+        const addButton = createWaveActionButton(
+            'add',
+            '+',
+            isWaveVisible(signal) ? 'Signal is already in Time column' : 'Add signal to Time column',
+            () => addSignalToWaveform(signal),
+            isWaveVisible(signal)
+        );
+
         const title = document.createElement('div');
         title.className = 'signal-title';
 
@@ -344,6 +372,7 @@ function renderSignalList() {
         meta.appendChild(value);
         meta.appendChild(width);
         row.appendChild(color);
+        row.appendChild(addButton);
         row.appendChild(title);
         row.appendChild(meta);
         windowEl.appendChild(row);
@@ -436,14 +465,33 @@ function renderWaveNameList() {
         };
 
         if (isGroupRow(signal)) {
+            const removeButton = createWaveActionButton(
+                'remove',
+                '-',
+                'Remove group from Time column',
+                () => removeWaveSignals(new Set([index]))
+            );
             const group = document.createElement('div');
             group.className = 'wave-name-group';
             group.textContent = (signal.expanded ? 'v ' : '> ') + waveNameText(signal);
             row.appendChild(group);
+            row.appendChild(removeButton);
         } else {
             const color = document.createElement('div');
             color.className = 'signal-color';
             color.style.background = signal.color;
+
+            const removeButton = isBusBitRow(signal)
+                ? document.createElement('div')
+                : createWaveActionButton(
+                    'remove',
+                    '-',
+                    'Remove signal from Time column',
+                    () => removeWaveSignals(new Set([index]))
+                );
+            if (isBusBitRow(signal)) {
+                removeButton.className = 'wave-action-spacer';
+            }
 
             const title = document.createElement('div');
             title.className = 'wave-name-title';
@@ -468,6 +516,7 @@ function renderWaveNameList() {
             title.appendChild(name);
             row.appendChild(color);
             row.appendChild(title);
+            row.appendChild(removeButton);
         }
         windowEl.appendChild(row);
     });
@@ -881,7 +930,7 @@ function updateEmptyState() {
         emptyState.textContent = 'No signals found in this VCD file.';
     } else if (!waveformCount()) {
         emptyState.style.display = 'flex';
-        emptyState.textContent = 'Add signals by dragging from the left list or using the right-click menu.';
+        emptyState.textContent = 'Add signals with the + buttons, by dragging from the left list, or using the right-click menu.';
     } else {
         emptyState.style.display = 'none';
         emptyState.textContent = '';

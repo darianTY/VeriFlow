@@ -151,9 +151,9 @@ body {
 }
 .signal-row {
     display: grid;
-    grid-template-columns: 3px minmax(0, 1fr) auto;
+    grid-template-columns: 3px 20px minmax(0, 1fr) auto;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     height: 32px;
     padding: 0 8px 0 6px;
     min-width: 0;
@@ -272,8 +272,8 @@ body {
 }
 .wave-name-row {
     display: grid;
-    grid-template-columns: 3px minmax(0, 1fr);
-    gap: 7px;
+    grid-template-columns: 3px minmax(0, 1fr) 20px;
+    gap: 6px;
     align-items: center;
     height: 32px;
     padding: 0 8px 0 6px;
@@ -292,7 +292,7 @@ body {
     background: rgba(96,165,250,0.22);
 }
 .wave-name-row.group-row {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 20px;
     background: rgba(127,127,127,0.11);
     color: var(--vscode-editor-foreground, #d6dde8);
     font-weight: 600;
@@ -351,6 +351,38 @@ body {
 }
 .bus-toggle:hover {
     background: var(--vscode-list-hoverBackground, rgba(96,165,250,0.14));
+}
+.wave-action-button {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--vscode-button-border, var(--vscode-panel-border, #30363d));
+    border-radius: 3px;
+    background: var(--vscode-button-secondaryBackground, rgba(127,127,127,0.12));
+    color: var(--vscode-button-secondaryForeground, var(--vscode-editor-foreground, #d6dde8));
+    font: 600 13px/16px var(--vscode-editor-font-family, Consolas, monospace);
+    cursor: pointer;
+}
+.wave-action-button:hover:not(:disabled) {
+    background: var(--vscode-button-secondaryHoverBackground, var(--vscode-list-hoverBackground, rgba(96,165,250,0.18)));
+}
+.wave-action-button.add:not(:disabled) {
+    color: #22e36d;
+}
+.wave-action-button.remove:not(:disabled) {
+    color: var(--vscode-errorForeground, #f85149);
+}
+.wave-action-button:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+.wave-action-spacer {
+    width: 18px;
+    height: 18px;
 }
 .bus-bit-indent {
     display: none;
