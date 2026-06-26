@@ -112,13 +112,15 @@ body {
 }
 .search {
     display: grid;
+    grid-template-columns: 38px minmax(0, 1fr);
     grid-template-rows: 1fr 1fr;
     gap: 5px;
-    padding: 7px;
+    padding: 7px 8px 7px 6px;
     border-bottom: 1px solid var(--vscode-panel-border, #30363d);
 }
 .search input,
 .search select {
+    grid-column: 2;
     width: 100%;
     background: var(--vscode-input-background, #0d1117);
     color: var(--vscode-input-foreground, #d6dde8);
@@ -126,6 +128,17 @@ body {
     border-radius: 3px;
     padding: 4px 6px;
     font: inherit;
+}
+.bulk-actions {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+}
+.signal-bulk-actions {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    justify-content: flex-end;
+    padding-right: 5px;
 }
 .signal-list {
     position: relative;
@@ -151,7 +164,7 @@ body {
 }
 .signal-row {
     display: grid;
-    grid-template-columns: 3px 20px minmax(0, 1fr) auto;
+    grid-template-columns: 3px 28px minmax(0, 1fr) auto;
     align-items: center;
     gap: 6px;
     height: 32px;
@@ -226,9 +239,11 @@ body {
 .wave-name-header {
     grid-column: 1;
     grid-row: 1;
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 28px;
     align-items: center;
-    padding: 0 8px;
+    gap: 6px;
+    padding: 0 8px 0 6px;
     border-bottom: 1px solid var(--vscode-panel-border, #30363d);
     background: var(--vscode-sideBar-background, #171b21);
     color: var(--vscode-descriptionForeground, #8b949e);
@@ -272,7 +287,7 @@ body {
 }
 .wave-name-row {
     display: grid;
-    grid-template-columns: 3px minmax(0, 1fr) 20px;
+    grid-template-columns: 3px minmax(0, 1fr) 28px;
     gap: 6px;
     align-items: center;
     height: 32px;
@@ -292,7 +307,7 @@ body {
     background: rgba(96,165,250,0.22);
 }
 .wave-name-row.group-row {
-    grid-template-columns: minmax(0, 1fr) 20px;
+    grid-template-columns: minmax(0, 1fr) 28px;
     background: rgba(127,127,127,0.11);
     color: var(--vscode-editor-foreground, #d6dde8);
     font-weight: 600;
@@ -353,6 +368,7 @@ body {
     background: var(--vscode-list-hoverBackground, rgba(96,165,250,0.14));
 }
 .wave-action-button {
+    justify-self: center;
     flex: 0 0 18px;
     width: 18px;
     height: 18px;
@@ -366,6 +382,11 @@ body {
     color: var(--vscode-button-secondaryForeground, var(--vscode-editor-foreground, #d6dde8));
     font: 600 13px/16px var(--vscode-editor-font-family, Consolas, monospace);
     cursor: pointer;
+}
+.wave-action-button.bulk {
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
 }
 .wave-action-button:hover:not(:disabled) {
     background: var(--vscode-button-secondaryHoverBackground, var(--vscode-list-hoverBackground, rgba(96,165,250,0.18)));

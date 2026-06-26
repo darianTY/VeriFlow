@@ -13,6 +13,8 @@ const cursorText = document.getElementById('cursorText');
 const rangeText = document.getElementById('rangeText');
 const searchInput = document.getElementById('searchInput');
 const scopeSelect = document.getElementById('scopeSelect');
+const addFilteredSignalsButton = document.getElementById('addFilteredSignals');
+const removeAllWavesButton = document.getElementById('removeAllWaves');
 const timeInput = document.getElementById('timeInput');
 const goToTimeButton = document.getElementById('goToTime');
 const contextMenu = document.getElementById('contextMenu');
@@ -1530,6 +1532,12 @@ function updateToolbarState() {
     ['goStart', 'goEnd', 'prevPage', 'nextPage', 'prevChange', 'nextChange', 'zoomOut', 'zoomIn', 'fit'].forEach(id => {
         document.getElementById(id).disabled = disabled;
     });
+    if (addFilteredSignalsButton) {
+        addFilteredSignalsButton.disabled = disabled || !filteredSignals.some(signal => !isWaveVisible(signal));
+    }
+    if (removeAllWavesButton) {
+        removeAllWavesButton.disabled = disabled || waveSignals.length === 0;
+    }
 }
 
 function zoom(factor, anchorX) {
@@ -1967,6 +1975,12 @@ document.getElementById('prevChange').onclick = () => jumpToChange(-1);
 document.getElementById('nextChange').onclick = () => jumpToChange(1);
 document.getElementById('fit').onclick = fit;
 goToTimeButton.onclick = goToTime;
+if (addFilteredSignalsButton) {
+    addFilteredSignalsButton.onclick = addFilteredSignalsToWaveform;
+}
+if (removeAllWavesButton) {
+    removeAllWavesButton.onclick = clearWaveforms;
+}
 searchInput.oninput = applyFilter;
 scopeSelect.onchange = applyFilter;
 scopeSelect.oncontextmenu = (event) => {

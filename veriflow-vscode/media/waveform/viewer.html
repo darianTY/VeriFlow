@@ -36,6 +36,9 @@
     <div class="main">
         <aside class="sidebar">
             <div class="search">
+                <div class="bulk-actions signal-bulk-actions">
+                    <button class="wave-action-button add bulk" id="addFilteredSignals" title="Add listed signals to Time column" aria-label="Add listed signals to Time column">+</button>
+                </div>
                 <input id="searchInput" type="text" placeholder="Search signals" />
                 <select id="scopeSelect"></select>
             </div>
@@ -43,7 +46,10 @@
         </aside>
         <div class="resize-handle main-resize" id="mainResize" title="Resize signal library"></div>
         <main class="wave-wrap" id="waveWrap">
-            <div class="wave-name-header">Time:</div>
+            <div class="wave-name-header">
+                <span>Time:</span>
+                <button class="wave-action-button remove bulk" id="removeAllWaves" title="Remove all signals from Time column" aria-label="Remove all signals from Time column">-</button>
+            </div>
             <div class="wave-name-list" id="waveNameList"></div>
             <div class="resize-handle wave-name-resize" id="waveNameResize" title="Resize waveform signal names"></div>
             <div class="wave-canvas-pane" id="waveCanvasPane">
